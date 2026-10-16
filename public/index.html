@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Pay Gate</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main>
+    <h1>Agent Pay Gate</h1>
+    <p>Pay-per-call API for AI agents. Pay a small USDC fee on Solana per call,
+    the server verifies the payment on-chain, then returns the data.</p>
+    <p>Status: <span id="health">checking…</span></p>
+    <h2>Endpoint</h2>
+    <pre>GET /api/insights/market-pulse?token=bitcoin</pre>
+    <p>Price, 24h change, 24h volume, 14-day RSI. Send a Solana USDC
+    transaction signature in the <code>X-Signature</code> header.
+    Without a valid payment the server returns <code>402</code>.</p>
+    <h2>Example</h2>
+    <pre>curl -H "X-Signature: YOUR_TX_SIGNATURE" \
+  "http://localhost:8080/api/insights/market-pulse?token=bitcoin"</pre>
+    <p class="note">Devnet by default — no real money.</p>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

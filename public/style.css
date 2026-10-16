@@ -1,0 +1,6 @@
+body { background: #0b0e14; color: #e6e6e6; font-family: system-ui, sans-serif; margin: 0; }
+main { max-width: 720px; margin: 48px auto; padding: 0 20px; }
+h1 { font-size: 28px; }
+pre { background: #161b26; padding: 12px; border-radius: 8px; overflow-x: auto; }
+code { background: #161b26; padding: 2px 6px; border-radius: 4px; }
+.note { color: #9aa4b2; }
