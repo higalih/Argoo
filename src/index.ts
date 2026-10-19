@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createServer, type IncomingMessage, type ServerResponse } from "http";
 import { readFile } from "fs/promises";
 import { join, extname } from "path";
