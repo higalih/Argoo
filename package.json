@@ -10,8 +10,10 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@solana/web3.js": "^1.98.0",
-    "dotenv": "^18.0.8"
+    "dotenv": "^18.0.8",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
