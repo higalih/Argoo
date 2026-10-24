@@ -1,27 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Agent Pay Gate</title>
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Argo — Pay-per-call market intel for AI agents</title>
+  <meta name="description"
+    content="Argo serves machine-readable crypto market briefs over HTTP. No API keys, no subscriptions — agents pay 0.05 USDC per call via x402.">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <main>
-    <h1>Agent Pay Gate</h1>
-    <p>Pay-per-call API for AI agents. Pay a small USDC fee on Solana per call,
-    the server verifies the payment on-chain, then returns the data.</p>
-    <p>Status: <span id="health">checking…</span></p>
-    <h2>Endpoint</h2>
-    <pre>GET /api/insights/market-pulse?token=bitcoin</pre>
-    <p>Price, 24h change, 24h volume, 14-day RSI. Send a Solana USDC
-    transaction signature in the <code>X-Signature</code> header.
-    Without a valid payment the server returns <code>402</code>.</p>
-    <h2>Example</h2>
-    <pre>curl -H "X-Signature: YOUR_TX_SIGNATURE" \
-  "http://localhost:8080/api/insights/market-pulse?token=bitcoin"</pre>
-    <p class="note">Devnet by default — no real money.</p>
-  </main>
-  <script src="/app.js"></script>
+
+<body class="bg-slate-950 text-slate-100 antialiased">
+
+  <!-- NAV -->
+  <nav class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
+    <div class="text-xl font-bold tracking-tight">Argo<span class="text-emerald-400">.</span></div>
+    <div class="hidden sm:flex gap-8 text-sm text-slate-400">
+      <a href="#how" class="hover:text-white">How it works</a>
+      <a href="#api" class="hover:text-white">API</a>
+      <a href="#pricing" class="hover:text-white">Pricing</a>
+    </div>
+    <a href="https://forms.gle/Gbt6Qwa1BHi4hGAe6" target="_blank" rel="noopener noreferrer"
+      class="text-sm font-semibold bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg hover:bg-emerald-300">Join
+      waitlist</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="max-w-5xl mx-auto px-6 pt-16 pb-20 text-center">
+    <div
+      class="inline-flex items-center gap-2 text-xs font-medium text-emerald-300 bg-emerald-400/10 border border-emerald-400/20 rounded-full px-3 py-1 mb-6">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      Live on Solana devnet
+    </div>
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+      Market intel for AI agents.<br>
+      <span class="text-emerald-400">Pay per call.</span>
+    </h1>
+    <p class="mt-6 text-lg text-slate-400 max-w-2xl mx-auto">
+      Argo serves machine-readable crypto market briefs over plain HTTP.
+      No API keys, no subscriptions — your agent pays
+      <span class="text-white font-semibold">0.05 USDC per call</span> via x402,
+      only for the calls it actually makes.
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="https://forms.gle/Gbt6Qwa1BHi4hGAe6" target="_blank" rel="noopener noreferrer"
+        class="font-semibold bg-emerald-400 text-slate-950 px-6 py-3 rounded-lg hover:bg-emerald-300">Join the
+        waitlist</a>
+      <a href="#how" class="font-semibold border border-slate-700 px-6 py-3 rounded-lg hover:border-slate-500">See how
+        it works</a>
+    </div>
+    <p class="mt-6 text-xs text-slate-500">Devnet today &middot; testnet tokens &middot; zero real money</p>
+  </header>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800">
+    <h2 class="text-3xl font-bold text-center">How it works</h2>
+    <p class="text-slate-400 text-center mt-3">Three steps. No signup, no dashboard, no API key ceremony.</p>
+    <div class="mt-10 grid sm:grid-cols-3 gap-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="text-emerald-400 font-bold text-sm mb-2">01</div>
+        <h3 class="font-semibold text-lg mb-2">Call the endpoint</h3>
+        <p class="text-sm text-slate-400">Any HTTP client your agent already has. One route:</p>
+        <code
+          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/market-pulse?token=bitcoin</code>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="text-emerald-400 font-bold text-sm mb-2">02</div>
+        <h3 class="font-semibold text-lg mb-2">Pay 0.05 USDC via x402</h3>
+        <p class="text-sm text-slate-400">No payment &rarr; <code class="text-amber-300">402</code> with instructions.
+          Send a Solana devnet USDC transfer, pass the signature in the <code class="text-slate-200">X-Signature</code>
+          header, retry.</p>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="text-emerald-400 font-bold text-sm mb-2">03</div>
+        <h3 class="font-semibold text-lg mb-2">Get live JSON</h3>
+        <p class="text-sm text-slate-400">Price, 24h change, 24h volume, 14-day RSI. Cached 60 seconds, replay-safe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- API SAMPLE -->
+  <section id="api" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800">
+    <h2 class="text-3xl font-bold text-center">Try it right now</h2>
+    <p class="text-slate-400 text-center mt-3">From any terminal. Devnet USDC is free from a faucet.</p>
+    <div class="mt-8 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <div class="px-5 py-3 border-b border-slate-800 text-xs text-slate-500 font-mono">terminal</div>
+      <pre class="p-5 text-sm font-mono overflow-x-auto"><code><span class="text-slate-500"># 1. Without payment → 402 (the gate is armed)</span>
+<span class="text-emerald-300">curl</span> <span class="text-slate-300">"https://argoo.xyz/api/insights/market-pulse?token=bitcoin"</span>
+
+<span class="text-slate-500"># 2. Pay 0.05 devnet USDC, then retry with the signature → 200</span>
+<span class="text-emerald-300">curl</span> -H <span class="text-slate-300">"X-Signature: &lt;your-tx-signature&gt;"</span> \
+  <span class="text-slate-300">"https://argoo.xyz/api/insights/market-pulse?token=bitcoin"</span></code></pre>
+    </div>
+    <!-- Greg: sesuaikan field names di bawah dengan src/endpoints.ts kalau beda -->
+    <div class="mt-4 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <div class="px-5 py-3 border-b border-slate-800 text-xs text-slate-500 font-mono">example response → 200</div>
+      <pre class="p-5 text-sm font-mono overflow-x-auto text-slate-300"><code>{
+  <span class="text-sky-300">"token"</span>: <span class="text-amber-200">"bitcoin"</span>,
+  <span class="text-sky-300">"price_usd"</span>: <span class="text-emerald-300">81583</span>,
+  <span class="text-sky-300">"change_24h_pct"</span>: <span class="text-emerald-300">-0.81</span>,
+  <span class="text-sky-300">"volume_24h_usd"</span>: <span class="text-emerald-300">23780000000</span>,
+  <span class="text-sky-300">"rsi_14d"</span>: <span class="text-emerald-300">34.71</span>,
+  <span class="text-sky-300">"as_of"</span>: <span class="text-amber-200">"2026-10-20T13:46:00Z"</span>
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800 text-center">
+    <h2 class="text-3xl font-bold">Pricing</h2>
+    <p class="mt-6 text-5xl font-extrabold text-emerald-400">0.05 <span class="text-2xl">USDC</span></p>
+    <p class="text-slate-400 mt-2">per call. That's the whole pricing page.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm text-slate-400">
+      <span class="border border-slate-800 rounded-full px-4 py-2">No subscription</span>
+      <span class="border border-slate-800 rounded-full px-4 py-2">No API key</span>
+      <span class="border border-slate-800 rounded-full px-4 py-2">No rate-limit games</span>
+      <span class="border border-slate-800 rounded-full px-4 py-2">Replay-safe</span>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section class="max-w-5xl mx-auto px-6 py-20 border-t border-slate-800 text-center">
+    <h2 class="text-3xl font-bold">Argo is on devnet today.<br>Mainnet is next.</h2>
+    <p class="text-slate-400 mt-4 max-w-xl mx-auto">Join the waitlist and we'll ping you when real-money rails go live —
+      plus early API shapes we're testing.</p>
+    <a href="https://forms.gle/Gbt6Qwa1BHi4hGAe6" target="_blank" rel="noopener noreferrer"
+      class="inline-block mt-8 font-semibold bg-emerald-400 text-slate-950 px-8 py-4 rounded-lg hover:bg-emerald-300 text-lg">Join
+      the waitlist</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800">
+    <div
+      class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+      <div>Argo<span class="text-emerald-400">.</span> — inspired by Syra</div>
+      <div>Devnet: no real money involved.</div>
+    </div>
+  </footer>
+
 </body>
+
 </html>

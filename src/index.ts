@@ -62,6 +62,6 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
   }
 });
 
-server.listen(config.port, () => {
-  console.log(`Agent Pay Gate listening on :${config.port} (devnet)`);
+server.listen(config.port, '127.0.0.1', () => {
+  console.log(`Agent Pay Gate listening on 127.0.0.1:${config.port} (devnet)`);
 });
