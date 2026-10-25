@@ -4,7 +4,7 @@ import { z } from "zod";
 // ⬇️ CEK DULU: buka src/endpoints.ts, ganti dengan nama fungsi & argumen aslinya
 import { marketPulse } from "./endpoints";
 
-const server = new McpServer({ name: "argo-mcp", version: "0.1.0" });
+const server = new McpServer({ name: "argoo-mcp", version: "0.1.0" });
 
 server.registerTool(
     "market_pulse",
@@ -23,6 +23,6 @@ server.registerTool(
 async function main() {
     const transport = new StdioServerTransport();
     await server.connect(transport);
-    console.error("argo-mcp running on stdio");
+    console.error("argoo-mcp running on stdio");
 }
 main().catch((err) => { console.error(err); process.exit(1); });
