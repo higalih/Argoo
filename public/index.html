@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Argo — Pay-per-call market intel for AI agents</title>
+  <title>Argoo — Pay-per-call market intel for AI agents</title>
   <meta name="description"
-    content="Argo serves machine-readable crypto market briefs over HTTP. No API keys, no subscriptions — agents pay 0.05 USDC per call via x402.">
+    content="Argoo serves machine-readable crypto market briefs over HTTP. No API keys, no subscriptions — agents pay 0.05 USDC per call via x402.">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -14,13 +14,13 @@
 
   <!-- NAV -->
   <nav class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
-    <div class="text-xl font-bold tracking-tight">Argo<span class="text-emerald-400">.</span></div>
+    <div class="text-xl font-bold tracking-tight">Argoo<span class="text-emerald-400">.</span></div>
     <div class="hidden sm:flex gap-8 text-sm text-slate-400">
       <a href="#how" class="hover:text-white">How it works</a>
       <a href="#api" class="hover:text-white">API</a>
       <a href="#pricing" class="hover:text-white">Pricing</a>
     </div>
-    <a href="https://forms.gle/Gbt6Qwa1BHi4hGAe6" target="_blank" rel="noopener noreferrer"
+    <a href="#waitlist"
       class="text-sm font-semibold bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg hover:bg-emerald-300">Join
       waitlist</a>
   </nav>
@@ -37,13 +37,13 @@
       <span class="text-emerald-400">Pay per call.</span>
     </h1>
     <p class="mt-6 text-lg text-slate-400 max-w-2xl mx-auto">
-      Argo serves machine-readable crypto market briefs over plain HTTP.
+      Argoo serves machine-readable crypto market briefs over plain HTTP.
       No API keys, no subscriptions — your agent pays
       <span class="text-white font-semibold">0.05 USDC per call</span> via x402,
       only for the calls it actually makes.
     </p>
     <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="https://forms.gle/Gbt6Qwa1BHi4hGAe6" target="_blank" rel="noopener noreferrer"
+      <a href="#waitlist"
         class="font-semibold bg-emerald-400 text-slate-950 px-6 py-3 rounded-lg hover:bg-emerald-300">Join the
         waitlist</a>
       <a href="#how" class="font-semibold border border-slate-700 px-6 py-3 rounded-lg hover:border-slate-500">See how
@@ -119,21 +119,25 @@
     </div>
   </section>
 
-  <!-- WAITLIST -->
-  <section class="max-w-5xl mx-auto px-6 py-20 border-t border-slate-800 text-center">
-    <h2 class="text-3xl font-bold">Argo is on devnet today.<br>Mainnet is next.</h2>
-    <p class="text-slate-400 mt-4 max-w-xl mx-auto">Join the waitlist and we'll ping you when real-money rails go live —
-      plus early API shapes we're testing.</p>
-    <a href="https://forms.gle/Gbt6Qwa1BHi4hGAe6" target="_blank" rel="noopener noreferrer"
-      class="inline-block mt-8 font-semibold bg-emerald-400 text-slate-950 px-8 py-4 rounded-lg hover:bg-emerald-300 text-lg">Join
-      the waitlist</a>
+  <!-- WAITLIST SECTION WITH EMBEDDED FORM -->
+  <section id="waitlist" class="max-w-5xl mx-auto px-6 py-20 border-t border-slate-800">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold">Join the waitlist</h2>
+      <p class="text-slate-400 mt-4 max-w-xl mx-auto">Get notified when mainnet goes live and receive early API updates.
+      </p>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSdiIPfR5c6EzHNA6Jc8VPvQsXwqc26EAwGoZ2RdS52BRbbkIQ/viewform?embedded=true"
+        width="100%" height="700" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="border-t border-slate-800">
     <div
       class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
-      <div>Argo<span class="text-emerald-400">.</span> — inspired by Syra</div>
+      <div>Argoo<span class="text-emerald-400">.</span> — inspired by Syra</div>
       <div>Devnet: no real money involved.</div>
     </div>
   </footer>
