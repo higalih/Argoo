@@ -160,6 +160,9 @@
       modal.classList.remove('hidden');
       modal.classList.add('flex');
       document.body.style.overflow = 'hidden';
+
+      // FIX: Ensure modal scrolls to top to prevent title cutoff
+      modal.scrollTop = 0;
     }
 
     function closeModal() {
