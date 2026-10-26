@@ -8,9 +8,17 @@
   <meta name="description"
     content="Argoo serves machine-readable crypto market briefs over HTTP. No API keys, no subscriptions — agents pay 0.05 USDC per call via x402.">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      background-color: #020617;
+      margin: 0;
+      /* add: guard against UA/preflight html margin */
+    }
+  </style>
 </head>
 
-<body class="bg-slate-950 text-slate-100 antialiased">
+<body class="bg-slate-950 text-slate-100 antialiased"
+  style="background-color:#020617; color:#f1f5f9; min-height:100vh; margin:0;">
 
   <!-- NAV -->
   <nav class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
