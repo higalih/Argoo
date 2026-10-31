@@ -1,8 +1,11 @@
+import "dotenv/config";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 // ⬇️ CEK DULU: buka src/endpoints.ts, ganti dengan nama fungsi & argumen aslinya
 import { marketPulse } from "./endpoints";
+import { tokenSafety } from "./tokenSafety";
+
 
 const server = new McpServer({ name: "argoo-mcp", version: "0.1.0" });
 
@@ -16,6 +19,20 @@ server.registerTool(
     },
     async ({ token }) => {
         const data = await marketPulse(token ?? "bitcoin");
+        return { content: [{ type: "text", text: JSON.stringify(data) }] };
+    }
+);
+
+server.registerTool(
+    "token_safety",
+    {
+        description: "Token safety check: score, level, holder concentration, authorities (devnet slice)",
+        inputSchema: {
+            token: z.string().describe("Solana mint address, mis. 4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"),
+        },
+    },
+    async ({ token }) => {
+        const data = await tokenSafety(token);
         return { content: [{ type: "text", text: JSON.stringify(data) }] };
     }
 );
