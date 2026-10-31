@@ -5,6 +5,8 @@ import { join, extname } from "path";
 import { config } from "./config";
 import { checkPayment } from "./paygate";
 import { marketPulse } from "./endpoints";
+import { tokenSafety } from "./tokenSafety";
+import { PublicKey } from "@solana/web3.js";
 
 const PUBLIC_DIR = join(__dirname, "..", "public");
 const MIME: Record<string, string> = {
@@ -49,6 +51,27 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
       }
       const token = url.searchParams.get("token") ?? "bitcoin";
       const data = await marketPulse(token);
+      sendJson(res, 200, data);
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/api/insights/token-safety") {
+      const gate = await checkPayment(req);
+      if (!gate.ok) {
+        sendJson(res, gate.status, gate.body);
+        return;
+      }
+      const mint = url.searchParams.get("token") ?? "";
+      if (mint.length === 0) {
+        sendJson(res, 400, { error: "Missing token: pass a Solana mint address as ?token=." });
+        return;
+      }
+      try {
+        new PublicKey(mint);
+      } catch {
+        sendJson(res, 400, { error: "Invalid token mint: expected a Solana mint address." });
+        return;
+      }
+      const data = await tokenSafety(mint);
       sendJson(res, 200, data);
       return;
     }

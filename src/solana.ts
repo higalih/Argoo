@@ -3,7 +3,7 @@ import { config } from "./config";
 
 let conn: Connection | null = null;
 
-function getConnection(): Connection {
+export function getConnection(): Connection {
   if (!conn) conn = new Connection(config.rpcUrl, "finalized");
   return conn;
 }
