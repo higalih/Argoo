@@ -5,6 +5,7 @@ import { z } from "zod";
 // ⬇️ CEK DULU: buka src/endpoints.ts, ganti dengan nama fungsi & argumen aslinya
 import { marketPulse } from "./endpoints";
 import { tokenSafety } from "./tokenSafety";
+import { whalePulse } from "./whalePulse";
 
 
 const server = new McpServer({ name: "argoo-mcp", version: "0.1.0" });
@@ -33,6 +34,20 @@ server.registerTool(
     },
     async ({ token }) => {
         const data = await tokenSafety(token);
+        return { content: [{ type: "text", text: JSON.stringify(data) }] };
+    }
+);
+
+server.registerTool(
+    "whale_pulse",
+    {
+        description: "Whale pulse: recent large transfers, whale count, coverage (devnet slice)",
+        inputSchema: {
+            token: z.string().describe("Solana mint address"),
+        },
+    },
+    async ({ token }) => {
+        const data = await whalePulse(token);
         return { content: [{ type: "text", text: JSON.stringify(data) }] };
     }
 );
