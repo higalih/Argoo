@@ -2,10 +2,10 @@ import "dotenv/config";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-// ⬇️ CEK DULU: buka src/endpoints.ts, ganti dengan nama fungsi & argumen aslinya
 import { marketPulse } from "./endpoints";
 import { tokenSafety } from "./tokenSafety";
 import { whalePulse } from "./whalePulse";
+import { alphaBundle } from "./alphaBundle";
 
 
 const server = new McpServer({ name: "argoo-mcp", version: "0.1.0" });
@@ -48,6 +48,20 @@ server.registerTool(
     },
     async ({ token }) => {
         const data = await whalePulse(token);
+        return { content: [{ type: "text", text: JSON.stringify(data) }] };
+    }
+);
+
+server.registerTool(
+    "alpha_bundle",
+    {
+        description: "Alpha bundle: BUY/WAIT/AVOID verdict + reasons from safety, whale, momentum (devnet slice)",
+        inputSchema: {
+            token: z.string().describe("Solana mint address"),
+        },
+    },
+    async ({ token }) => {
+        const data = await alphaBundle(token);
         return { content: [{ type: "text", text: JSON.stringify(data) }] };
     }
 );
