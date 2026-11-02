@@ -68,9 +68,14 @@
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
         <div class="text-emerald-400 font-bold text-sm mb-2">01</div>
         <h3 class="font-semibold text-lg mb-2">Call the endpoint</h3>
-        <p class="text-sm text-slate-400">Any HTTP client your agent already has. One route:</p>
+        <p class="text-sm text-slate-400">Any HTTP client your agent already has. Three live routes:</p>
         <code
           class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/market-pulse?token=bitcoin</code>
+        <code
+          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/token-safety?token=<mint></code>
+        <code
+          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/whale-pulse?token=<mint></code>
+        <p class="text-sm text-slate-400 mt-3">token_safety — Is it safe to buy? Score plus reasons: honeypot, freeze authority, holder concentration. whale_pulse — What are whales doing? Transfers in the last 24h, data only, no verdict.</p>
       </div>
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
         <div class="text-emerald-400 font-bold text-sm mb-2">02</div>
@@ -136,8 +141,7 @@
         the card says wait, with reasons, instead of raw numbers.</p>
     </div>
     <p class="mt-8 text-sm text-slate-400 text-center leading-relaxed">
-      Argoo starts with market_pulse. Next tools follow demand: token_safety → whale_pulse → alpha_bundle (the verdict).
-      Tell us which one you want first in the waitlist.
+      Live now: market_pulse, token_safety, whale_pulse. Next: alpha_bundle (the verdict).
     </p>
   </section>
 
