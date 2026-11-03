@@ -4,6 +4,7 @@ import { readFile } from "fs/promises";
 import { join, extname } from "path";
 import { config } from "./config";
 import { checkPayment } from "./paygate";
+import { recordCall, getStats } from "./metrics";
 import { rateLimitOk } from "./rateLimit";
 import { marketPulse } from "./endpoints";
 import { tokenSafety } from "./tokenSafety";
@@ -42,7 +43,7 @@ async function serveStatic(path: string, res: ServerResponse) {
 const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
   try {
     const url = new URL(req.url ?? "/", `http://localhost:${config.port}`);
-    if (url.pathname.startsWith("/api/insights/")) {
+    if (url.pathname.startsWith("/api/insights/") || url.pathname === "/api/stats") {
       const limit = rateLimitOk(req);
       if (!limit.ok) {
         sendJson(res, 429, { error: "Too many requests: slow down and retry shortly." }, { "Retry-After": String(limit.retryAfterSec) });
@@ -53,12 +54,17 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
       sendJson(res, 200, { ok: true });
       return;
     }
+    if (req.method === "GET" && url.pathname === "/api/stats") {
+      sendJson(res, 200, getStats());
+      return;
+    }
     if (req.method === "GET" && url.pathname === "/api/insights/market-pulse") {
       const gate = await checkPayment(req);
       if (!gate.ok) {
         sendJson(res, gate.status, gate.body);
         return;
       }
+      recordCall("market_pulse", gate.payer, gate.amount);
       const token = url.searchParams.get("token") ?? "bitcoin";
       const data = await marketPulse(token);
       sendJson(res, 200, data);
@@ -70,6 +76,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
         sendJson(res, gate.status, gate.body);
         return;
       }
+      recordCall("token_safety", gate.payer, gate.amount);
       const mint = url.searchParams.get("token") ?? "";
       if (mint.length === 0) {
         sendJson(res, 400, { error: "Missing token: pass a Solana mint address as ?token=." });
@@ -91,6 +98,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
         sendJson(res, gate.status, gate.body);
         return;
       }
+      recordCall("whale_pulse", gate.payer, gate.amount);
       const mint = url.searchParams.get("token") ?? "";
       if (mint.length === 0) {
         sendJson(res, 400, { error: "Missing token: pass a Solana mint address as ?token=." });
@@ -112,6 +120,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
         sendJson(res, gate.status, gate.body);
         return;
       }
+      recordCall("alpha_bundle", gate.payer, gate.amount);
       const mint = url.searchParams.get("token") ?? "";
       if (mint.length === 0) {
         sendJson(res, 400, { error: "Missing token: pass a Solana mint address as ?token=." });

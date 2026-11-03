@@ -7,7 +7,7 @@ import { config } from "./config";
 // store is a later task, not a slice-1 problem.
 const seen = new Set<string>();
 
-export type GateResult = { ok: true } | { ok: false; status: number; body: unknown };
+export type GateResult = { ok: true; payer: string; amount: number } | { ok: false; status: number; body: unknown };
 
 export async function checkPayment(req: IncomingMessage): Promise<GateResult> {
   const sig = req.headers["x-signature"];
@@ -32,8 +32,8 @@ export async function checkPayment(req: IncomingMessage): Promise<GateResult> {
       body: { error: "Payment Required: this signature was already used." },
     };
   }
-  const paid = await verifyUsdcPayment(sig);
-  if (!paid) {
+  const verified = await verifyUsdcPayment(sig);
+  if (!verified.paid) {
     return {
       ok: false,
       status: 402,
@@ -41,5 +41,5 @@ export async function checkPayment(req: IncomingMessage): Promise<GateResult> {
     };
   }
   seen.add(sig);
-  return { ok: true };
+  return { ok: true, payer: verified.payer, amount: verified.amount };
 }
