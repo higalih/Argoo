@@ -25,6 +25,7 @@ to mainnet values only when ready.
   the `X-Signature` header. Returns `402` without a valid payment.
 - `GET /api/insights/token-safety?token=<mint>` — safety score + level, holder concentration, authorities. Requires a Solana USDC payment signature in the `X-Signature` header. Returns `402` without a valid payment.
 - `GET /api/insights/whale-pulse?token=<mint>` — whale transfers in 24h, whale count, coverage. Requires a Solana USDC payment signature in the `X-Signature` header. Returns `402` without a valid payment.
+- `GET /api/insights/alpha-bundle?token=<mint>` — BUY/WAIT/AVOID verdict from safety + whale + momentum. Requires a Solana USDC payment signature in the `X-Signature` header. Returns `402` without a valid payment.
 
 ## Layout
 

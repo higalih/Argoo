@@ -43,8 +43,17 @@ export async function whalePulse(mint: string) {
   return cached(`whale:${mint}`, TTL_MS, async () => {
     const conn = getConnection();
     const info = await conn.getParsedAccountInfo(pubkey);
+    if (!info.value) {
+      const e = new Error("Token not found on devnet: no account for this mint address.");
+      (e as any).status = 404;
+      throw e;
+    }
     const parsed: any = (info.value?.data as any)?.parsed?.info;
-    if (!parsed || parsed.supply === undefined) throw new Error("Not a token mint");
+    if (!parsed || parsed.supply === undefined) {
+      const e = new Error("Not a token mint: this address is not a token mint on devnet.");
+      (e as any).status = 404;
+      throw e;
+    }
     const decimals: number = parsed.decimals ?? 0;
     const supplyUi = Number(parsed.supply ?? 0) / 10 ** decimals;
 

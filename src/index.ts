@@ -4,6 +4,7 @@ import { readFile } from "fs/promises";
 import { join, extname } from "path";
 import { config } from "./config";
 import { checkPayment } from "./paygate";
+import { rateLimitOk } from "./rateLimit";
 import { marketPulse } from "./endpoints";
 import { tokenSafety } from "./tokenSafety";
 import { whalePulse } from "./whalePulse";
@@ -18,8 +19,8 @@ const MIME: Record<string, string> = {
   ".json": "application/json",
 };
 
-function sendJson(res: ServerResponse, status: number, body: unknown) {
-  res.writeHead(status, { "Content-Type": "application/json" });
+function sendJson(res: ServerResponse, status: number, body: unknown, extraHeaders?: Record<string, string>) {
+  res.writeHead(status, { "Content-Type": "application/json", ...extraHeaders });
   res.end(JSON.stringify(body));
 }
 
@@ -41,6 +42,13 @@ async function serveStatic(path: string, res: ServerResponse) {
 const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
   try {
     const url = new URL(req.url ?? "/", `http://localhost:${config.port}`);
+    if (url.pathname.startsWith("/api/insights/")) {
+      const limit = rateLimitOk(req);
+      if (!limit.ok) {
+        sendJson(res, 429, { error: "Too many requests: slow down and retry shortly." }, { "Retry-After": String(limit.retryAfterSec) });
+        return;
+      }
+    }
     if (req.method === "GET" && url.pathname === "/health") {
       sendJson(res, 200, { ok: true });
       return;
@@ -125,7 +133,12 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     }
     sendJson(res, 404, { error: "Not found" });
   } catch (err) {
-    sendJson(res, 500, { error: err instanceof Error ? err.message : "Internal error" });
+    // Client-safe errors carry their own status (e.g. 404 for a token that
+    // is not a mint). Anything else is a server error: log it, but never
+    // echo internal messages to the client (they can include RPC details).
+    const status = (err as any)?.status ?? 500;
+    if (status === 500) console.error(err);
+    sendJson(res, status, { error: status === 500 ? "Internal error" : err instanceof Error ? err.message : "Internal error" });
   }
 });
 

@@ -30,19 +30,40 @@ function rsi(closes: number[], period = 14): number | null {
 // Real data from CoinGecko (no key). No invented indicators.
 export async function marketPulse(token: string) {
   const id = token.toLowerCase().trim();
-  if (id.length === 0 || !/^[a-z0-9-]+$/.test(id)) throw new Error("Invalid token id");
-  const [price, chart] = await Promise.all([
-    cached(`price:${id}`, TTL_MS, () =>
-      getJson(
-        `${config.coingeckoBase}/simple/price?ids=${id}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true`,
+  if (id.length === 0 || !/^[a-z0-9-]+$/.test(id)) {
+    const e = new Error("Invalid token id: expected a CoinGecko id (lowercase letters, digits, hyphens).");
+    (e as any).status = 400;
+    throw e;
+  }
+  let price: any;
+  let chart: any;
+  try {
+    [price, chart] = await Promise.all([
+      cached(`price:${id}`, TTL_MS, () =>
+        getJson(
+          `${config.coingeckoBase}/simple/price?ids=${id}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true`,
+        ),
       ),
-    ),
-    cached(`chart:${id}`, TTL_MS, () =>
-      getJson(`${config.coingeckoBase}/coins/${id}/market_chart?vs_currency=usd&days=15&interval=daily`),
-    ),
-  ]);
+      cached(`chart:${id}`, TTL_MS, () =>
+        getJson(`${config.coingeckoBase}/coins/${id}/market_chart?vs_currency=usd&days=15&interval=daily`),
+      ),
+    ]);
+  } catch (err) {
+    // CoinGecko 404 means the id is unknown (not a server error): map it
+    // to 404. Any other upstream failure stays a 500-generic via the catch.
+    if (err instanceof Error && err.message.startsWith("Upstream 404")) {
+      const e = new Error(`Unknown token: ${id}`);
+      (e as any).status = 404;
+      throw e;
+    }
+    throw err;
+  }
   const p = price[id];
-  if (!p) throw new Error(`Unknown token: ${id}`);
+  if (!p) {
+    const e = new Error(`Unknown token: ${id}`);
+    (e as any).status = 404;
+    throw e;
+  }
   const closes: number[] = (chart.prices ?? []).map((pt: number[]) => pt[1]);
   return {
     token: id,

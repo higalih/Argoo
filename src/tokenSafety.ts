@@ -42,8 +42,17 @@ export async function tokenSafety(mint: string) {
   return cached(`safety:${mint}`, TTL_MS, async () => {
     const conn = getConnection();
     const info = await conn.getParsedAccountInfo(pubkey);
+    if (!info.value) {
+      const e = new Error("Token not found on devnet: no account for this mint address.");
+      (e as any).status = 404;
+      throw e;
+    }
     const parsed: any = (info.value?.data as any)?.parsed?.info;
-    if (!parsed || parsed.mintAuthority === undefined) throw new Error("Not a token mint");
+    if (!parsed || parsed.mintAuthority === undefined) {
+      const e = new Error("Not a token mint: this address is not a token mint on devnet.");
+      (e as any).status = 404;
+      throw e;
+    }
     const decimals: number = parsed.decimals ?? 0;
     const supplyUi = Number(parsed.supply ?? 0) / 10 ** decimals;
     const mintAuthority = parsed.mintAuthority ? "active" : "revoked";
