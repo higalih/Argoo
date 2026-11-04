@@ -27,6 +27,48 @@ to mainnet values only when ready.
 - `GET /api/insights/whale-pulse?token=<mint>` — whale transfers in 24h, whale count, coverage. Requires a Solana USDC payment signature in the `X-Signature` header. Returns `402` without a valid payment.
 - `GET /api/insights/alpha-bundle?token=<mint>` — BUY/WAIT/AVOID verdict from safety + whale + momentum. Requires a Solana USDC payment signature in the `X-Signature` header. Returns `402` without a valid payment.
 
+## MCP server
+
+`argoo-mcp` — the same four tools over MCP (stdio), for agents and MCP
+clients. Free and local: it calls the handlers directly, with no payment
+gate. The paid path stays the HTTP API above (0.05 USDC per call).
+
+```bash
+git clone https://github.com/higalih/Argo.git
+cd Argo
+npm install
+npm run build
+node dist/mcp-server.js   # stdio, waits on stdin (Ctrl+C to exit)
+```
+
+Claude Desktop (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "argoo": {
+      "command": "node",
+      "args": ["/absolute/path/to/Argo/dist/mcp-server.js"],
+      "env": { "SOLANA_RPC_URL": "https://devnet.helius-rpc.com/?api-key=YOUR_KEY" }
+    }
+  }
+}
+```
+
+`SOLANA_RPC_URL` is optional — without it the server uses the public
+devnet RPC (may throttle); a Helius devnet endpoint is the fast path.
+Claude Desktop does not run from the project root, so pass
+`SOLANA_RPC_URL` in env explicitly (as above); otherwise it falls back
+to the public RPC. MCP Inspector (run from the project root, so `.env`
+is found):
+
+```bash
+npx @modelcontextprotocol/inspector node dist/mcp-server.js
+```
+
+Note: this repo is private, so v1 install is for collaborators with
+GitHub access. Public install comes with the npm package (v2).
+
 ## Layout
 
 - `src/index.ts` — HTTP server + routing + static frontend
