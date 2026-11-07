@@ -84,9 +84,12 @@ export function secretKeyFromBase58(secret: string): Uint8Array {
     bytes.unshift(Number(n & 0xffn));
     n >>= 8n;
   }
-  if (leading + bytes.length > 64) throw new Error("Invalid secret key length (expected 64 bytes).");
+  const totalLength = leading + bytes.length;
+  if (totalLength !== 64) {
+    throw new Error(`Invalid secret key length (expected 64 bytes, got ${totalLength}).`);
+  }
   const out = new Uint8Array(64);
-  out.set(bytes, 64 - bytes.length);
+  out.set(bytes, leading);
   return out;
 }
 
