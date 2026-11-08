@@ -64,18 +64,24 @@
   <section id="how" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800">
     <h2 class="text-3xl font-bold text-center">How it works</h2>
     <p class="text-slate-400 text-center mt-3">Three steps. No signup, no dashboard, no API key ceremony.</p>
-    <div class="mt-10 grid sm:grid-cols-3 gap-6">
+    <div class="mt-10 grid gap-6">
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
         <div class="text-emerald-400 font-bold text-sm mb-2">01</div>
         <h3 class="font-semibold text-lg mb-2">Call the endpoint</h3>
-        <p class="text-sm text-slate-400">Any HTTP client your agent already has. Three live routes:</p>
+        <p class="text-sm text-slate-400">Any HTTP client your agent already has. Four live routes:</p>
         <code
           class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/market-pulse?token=bitcoin</code>
+        <p class="text-sm text-slate-400 mt-2">market_pulse — Price, 24h change, 24h volume and RSI 14d for a CoinGecko id.</p>
         <code
           class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/token-safety?token=<mint></code>
+        <p class="text-sm text-slate-400 mt-2">token_safety — Is it safe to buy? Score plus reasons: honeypot, freeze authority, holder concentration.</p>
         <code
           class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/whale-pulse?token=<mint></code>
-        <p class="text-sm text-slate-400 mt-3">token_safety — Is it safe to buy? Score plus reasons: honeypot, freeze authority, holder concentration. whale_pulse — What are whales doing? Transfers in the last 24h, data only, no verdict.</p>
+        <p class="text-sm text-slate-400 mt-2">whale_pulse — What are whales doing? Transfers in the last 24h, data only, no verdict.</p>
+        <code
+          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/alpha-bundle?token=<mint></code>
+        <p class="text-sm text-slate-400 mt-2">alpha_bundle — BUY / WAIT / AVOID verdict combining momentum, safety and whale activity.</p>
+        <p class="text-sm text-slate-400 mt-3">Agents can discover all four routes — prices, inputs, outputs — at <code class="text-slate-200">/.well-known/x402</code> or <code class="text-slate-200">/openapi.json</code>, no repo needed.</p>
       </div>
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
         <div class="text-emerald-400 font-bold text-sm mb-2">02</div>
@@ -132,16 +138,18 @@
     </div>
   </section>
 
-  <!-- PREVIEW CARD & ROADMAP -->
+  <!-- VERDICT EXAMPLE & ROADMAP -->
   <section class="max-w-3xl mx-auto px-6 py-16 border-t border-slate-800">
     <div class="rounded-2xl border border-emerald-400/30 bg-zinc-900 p-5">
-      <div class="text-xs tracking-wide text-zinc-400">COMING SOON — PREVIEW, NOT A LIVE TOOL</div>
-      <div class="mt-2 text-2xl font-bold">WAIT <span class="text-emerald-400">· Score 62</span></div>
-      <p class="mt-1 text-sm text-zinc-300">Example: RSI oversold, but holder concentration is high in one wallet — so
-        the card says wait, with reasons, instead of raw numbers.</p>
+      <div class="text-xs tracking-wide text-zinc-400">EXAMPLE — REAL OUTPUT · 6 NOV 2026 · DEVNET FAUCET MINT</div>
+      <div class="mt-2 text-2xl font-bold"><span class="text-amber-300">AVOID</span></div>
+      <p class="mt-1 text-sm text-zinc-300">The devnet faucet mint (4zMMC9…JDncDU). Its creator can still mint more
+        tokens and freeze holders' tokens, and one wallet holds 60.71% of supply —
+        safety score 10, RISKY. That is an absolute veto: no whale or momentum
+        signal can lift it. This is one real answer, not a promise.</p>
     </div>
     <p class="mt-8 text-sm text-slate-400 text-center leading-relaxed">
-      Live now: market_pulse, token_safety, whale_pulse. Next: alpha_bundle (the verdict).
+      Live now: market_pulse, token_safety, whale_pulse, alpha_bundle.
     </p>
   </section>
 
