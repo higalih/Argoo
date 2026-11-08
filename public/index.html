@@ -26,6 +26,7 @@
     <div class="hidden sm:flex gap-8 text-sm text-slate-400">
       <a href="#how" class="hover:text-white">How it works</a>
       <a href="#api" class="hover:text-white">API</a>
+      <a href="#integrate" class="hover:text-white">Integrate</a>
       <a href="#pricing" class="hover:text-white">Pricing</a>
     </div>
     <button onclick="openModal()"
@@ -123,6 +124,54 @@
   <span class="text-sky-300">"as_of"</span>: <span class="text-amber-200">"2026-10-20T13:46:00Z"</span>
 }</code></pre>
     </div>
+  </section>
+
+  <!-- INTEGRATE -->
+  <section id="integrate" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800">
+    <h2 class="text-3xl font-bold text-center">Integrate Argoo</h2>
+    <p class="text-slate-400 text-center mt-3">Put the four tools in your agent or your code. Two ways in — pick one.</p>
+    <div class="mt-10 grid gap-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="text-emerald-400 font-bold text-sm mb-2">A</div>
+        <h3 class="font-semibold text-lg mb-2">MCP — free, local</h3>
+        <p class="text-sm text-slate-400">The same four tools over MCP (stdio), for agents and MCP clients. Free and local — no payment gate. The paid path stays the HTTP API (0.05 USDC per call).</p>
+        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
+cd Argo
+npm install
+npm run build
+node dist/mcp-server.js   # stdio, waits on stdin (Ctrl+C to exit)</pre>
+        <p class="text-sm text-slate-400 mt-3">Claude Desktop (<code class="text-slate-200">claude_desktop_config.json</code>):</p>
+        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-slate-300 font-mono overflow-x-auto">{
+  "mcpServers": {
+    "argoo": {
+      "command": "node",
+      "args": ["/absolute/path/to/Argo/dist/mcp-server.js"],
+      "env": { "SOLANA_RPC_URL": "https://devnet.helius-rpc.com/?api-key=YOUR_KEY" }
+    }
+  }
+}</pre>
+        <p class="text-sm text-slate-400 mt-3">Try it with the Inspector, from the project root:</p>
+        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 font-mono overflow-x-auto">npx @modelcontextprotocol/inspector node dist/mcp-server.js</pre>
+        <p class="text-sm text-slate-400 mt-3">The repo is private in v1, so install needs GitHub access. Public install comes with the npm package (v2).</p>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="text-emerald-400 font-bold text-sm mb-2">B</div>
+        <h3 class="font-semibold text-lg mb-2">SDK — paid, 0.05 USDC per call</h3>
+        <p class="text-sm text-slate-400">A thin wrapper over the paid HTTP API. Repo-only in v1 — no npm package yet.</p>
+        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
+cd Argo
+npm install
+npm run build
+# .env: SDK_PAYER_SECRET_KEY=&lt;devnet-only key&gt;
+node examples/sdk-example.mjs</pre>
+        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-slate-300 font-mono overflow-x-auto">import sdk from "./dist/sdk.js";
+const wallet = Keypair.fromSecretKey(
+  sdk.secretKeyFromBase58(process.env.SDK_PAYER_SECRET_KEY));
+const result = await sdk.token_safety("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU", { wallet });</pre>
+        <p class="text-sm text-slate-400 mt-3">Pays 0.05 USDC per call from a devnet-only wallet. Key in <code class="text-slate-200">.env</code>, never hardcoded, never mainnet. Get devnet funds first: SOL at <a class="text-emerald-300 hover:text-white" href="https://faucet.solana.com">faucet.solana.com</a>, devnet USDC at <a class="text-emerald-300 hover:text-white" href="https://faucet.circle.com">faucet.circle.com</a>.</p>
+      </div>
+    </div>
+    <p class="text-sm text-slate-400 text-center mt-8">Agents: the machine-readable version of all of this is <a class="text-emerald-300 hover:text-white" href="/.well-known/x402">/.well-known/x402</a> and <a class="text-emerald-300 hover:text-white" href="/openapi.json">/openapi.json</a>.</p>
   </section>
 
   <!-- PRICING -->
