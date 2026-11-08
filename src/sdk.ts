@@ -124,6 +124,19 @@ async function findTokenAccount(
 // (looked up, not assumed ATAs — see findTokenAccount). If a wallet has no
 // token account for the mint yet, this throws a clear error instead of
 // failing inside the transfer; ATA creation is a later addition, not v1.
+// ponytail: web3.js keeps an infinitely-reconnecting WS client alive after
+// confirmation, so CLI scripts never exit. Tear it down after each payment.
+// Private field - guarded, so a future web3.js change can't break payment.
+function teardownWs(connection: Connection): void {
+  try {
+    const ws = (connection as any)._rpcWebSocket;
+    if (!ws) return;
+    ws.reconnect = false;
+    if (ws.reconnect_timer_id) clearTimeout(ws.reconnect_timer_id);
+    ws.close();
+  } catch { /* cleanup only */ }
+}
+
 async function payUsdc(opts: {
   rpcUrl: string;
   treasury: string;
@@ -152,7 +165,7 @@ async function payUsdc(opts: {
   });
   const { blockhash } = await connection.getLatestBlockhash();
   const tx = new Transaction({ feePayer: owner, recentBlockhash: blockhash }).add(instruction);
-  return await sendAndConfirmTransaction(connection, tx, [opts.wallet], { commitment: "finalized" });
+  return await sendAndConfirmTransaction(connection, tx, [opts.wallet], { commitment: "finalized" }).finally(() => teardownWs(connection));
 }
 
 function httpError(route: string, res: Response, body: string): Error {
