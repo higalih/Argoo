@@ -11,6 +11,7 @@ import { tokenSafety } from "./tokenSafety";
 import { whalePulse } from "./whalePulse";
 import { alphaBundle } from "./alphaBundle";
 import { PublicKey } from "@solana/web3.js";
+import { buildManifest, buildOpenApi } from "./discovery";
 
 const PUBLIC_DIR = join(__dirname, "..", "public");
 const MIME: Record<string, string> = {
@@ -56,6 +57,17 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     }
     if (req.method === "GET" && url.pathname === "/api/stats") {
       sendJson(res, 200, getStats());
+      return;
+    }
+    // Discovery docs: public, ungated AND unthrottled. The rate limiter
+    // above covers only /api/insights/* and /api/stats, so these routes
+    // are outside it by construction — keep them outside that branch.
+    if (req.method === "GET" && url.pathname === "/.well-known/x402") {
+      sendJson(res, 200, buildManifest(), { "Cache-Control": "public, max-age=300" });
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/openapi.json") {
+      sendJson(res, 200, buildOpenApi(), { "Cache-Control": "public, max-age=300" });
       return;
     }
     if (req.method === "GET" && url.pathname === "/api/insights/market-pulse") {
