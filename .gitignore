@@ -2,6 +2,7 @@ node_modules/
 dist/
 .env
 *.bak
+.vscode/
 # Working notes - private recipes, not part of the install
 argo-roadmap-draft.md
 docs/
