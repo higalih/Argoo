@@ -8,44 +8,85 @@
   <meta name="description"
     content="Argoo serves machine-readable crypto market briefs over HTTP. No API keys, no subscriptions — agents pay 0.05 USDC per call via x402.">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     html {
-      background-color: #020617;
+      background-color: #0b0b0b;
       margin: 0;
       /* add: guard against UA/preflight html margin */
+    }
+
+    /* Fey design tokens — Path A (Play CDN v3, no @theme). Full doc: docs/DESIGN_Fey_design_system.md */
+    :root {
+      --color-fey-white: #ffffff;
+      --color-fey-ink: #0b0b0b;
+      --color-fey-charcoal: #191919;
+      --color-fey-obsidian: #131313;
+      --color-fey-graphite: #868f97;
+      --color-fey-mist: #cccccc;
+      --color-fey-smoke: #525252;
+      --color-fey-pale: #e6e6e6;
+      --color-fey-ash: #999999;
+      --color-fey-ember: #ffa16c;
+      --color-fey-signal: #479ffa;
+      --color-fey-growth: #4ebe96;
+      --color-fey-abyss: #000000;
+      --color-fey-frost: #b6d6ff;
+      --color-fey-volt: #d6fe51;
+      /* Calibre is commercial — Inter is the doc's listed substitute */
+      --font-calibre: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --radius-cards: 16px;
+      --radius-icons: 6px;
+      --radius-small: 10px;
+      --radius-buttons: 99px;
+      --shadow-xl: rgba(0, 0, 0, 0.8) 0px 0px 44px 0px;
+      --shadow-subtle: rgba(0, 0, 0, 0.85) 0px 1px 0px 0px;
+      --shadow-md: rgba(255, 255, 255, 0.25) 0px 0px 14px 0px;
+      --surface-canvas: #0b0b0b;
+      --surface-card: #191919;
+      --surface-elevated: #131313;
+      --surface-overlay: #000000cc;
+    }
+
+    /* Full-page roll: Fey type is the page typeface now (Inter = Calibre substitute) */
+    body {
+      font-family: var(--font-calibre);
+      font-feature-settings: "ss01" on, "tnum" on;
     }
   </style>
 </head>
 
-<body class="bg-slate-950 text-slate-100 antialiased"
-  style="background-color:#020617; color:#f1f5f9; min-height:100vh; margin:0;">
+<body class="bg-[var(--surface-canvas)] text-[var(--color-fey-white)] antialiased"
+  style="background-color:#0b0b0b; color:#ffffff; min-height:100vh; margin:0;">
 
   <!-- NAV -->
   <nav class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
-    <div class="text-xl font-bold tracking-tight">Argoo<span class="text-emerald-400">.</span></div>
-    <div class="hidden sm:flex gap-8 text-sm text-slate-400">
-      <a href="#how" class="hover:text-white">How it works</a>
-      <a href="#api" class="hover:text-white">API</a>
-      <a href="#integrate" class="hover:text-white">Integrate</a>
-      <a href="#pricing" class="hover:text-white">Pricing</a>
+    <div class="text-xl font-bold tracking-tight">Argoo<span class="text-[var(--color-fey-growth)]">.</span></div>
+    <div class="hidden sm:flex gap-8 text-sm text-[var(--color-fey-graphite)]">
+      <a href="#how" class="hover:text-[var(--color-fey-white)]">How it works</a>
+      <a href="#api" class="hover:text-[var(--color-fey-white)]">API</a>
+      <a href="#integrate" class="hover:text-[var(--color-fey-white)]">Integrate</a>
+      <a href="#pricing" class="hover:text-[var(--color-fey-white)]">Pricing</a>
     </div>
     <button onclick="openModal()"
-      class="text-sm font-semibold bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg hover:bg-emerald-300">Join
+      class="text-sm font-medium text-[var(--color-fey-white)] bg-transparent border border-[var(--color-fey-pale)] px-4 py-2 sm:px-6 sm:py-3 rounded-[99px] shadow-[var(--shadow-md)] hover:border-[var(--color-fey-white)]">Join
       waitlist</button>
   </nav>
 
   <!-- HERO -->
   <header class="max-w-5xl mx-auto px-6 pt-16 pb-20 text-center">
     <div
-      class="inline-flex items-center gap-2 text-xs font-medium text-emerald-300 bg-emerald-400/10 border border-emerald-400/20 rounded-full px-3 py-1 mb-6">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      class="inline-flex items-center gap-2 text-xs font-medium text-[var(--color-fey-growth)] bg-[rgba(78,190,150,0.1)] border border-[rgba(78,190,150,0.2)] rounded-full px-3 py-1 mb-6">
+      <span class="w-2 h-2 rounded-full bg-[var(--color-fey-growth)] animate-pulse"></span>
       Live on Solana devnet
     </div>
-    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+    <h1 class="text-4xl sm:text-6xl font-bold tracking-[-0.08em] leading-[1.1]">
       Market intel for AI agents.<br>
-      <span class="text-emerald-400">Pay per call.</span>
+      <span class="text-[var(--color-fey-ember)]">Pay</span> per call.
     </h1>
-    <p class="mt-6 text-lg text-slate-400 max-w-2xl mx-auto">
+    <p class="mt-6 text-lg text-[var(--color-fey-graphite)] max-w-2xl mx-auto">
       Argoo serves machine-readable crypto market briefs over plain HTTP.
       No API keys, no subscriptions — your agent pays
       <span class="text-white font-semibold">0.05 USDC per call</span> via x402,
@@ -53,95 +94,122 @@
     </p>
     <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
       <button onclick="openModal()"
-        class="font-semibold bg-emerald-400 text-slate-950 px-6 py-3 rounded-lg hover:bg-emerald-300">Join the
+        class="font-medium text-sm text-[var(--color-fey-white)] bg-transparent border border-[var(--color-fey-pale)] px-4 py-2 sm:px-6 sm:py-3 rounded-[99px] shadow-[var(--shadow-md)] hover:border-[var(--color-fey-white)]">Join
+        the
         waitlist</button>
-      <a href="#how" class="font-semibold border border-slate-700 px-6 py-3 rounded-lg hover:border-slate-500">See how
+      <a href="#how"
+        class="font-medium text-sm text-[var(--color-fey-white)] border border-[var(--color-fey-smoke)] px-4 py-2 sm:px-6 sm:py-3 rounded-[99px] hover:border-[var(--color-fey-mist)]">See
+        how
         it works</a>
     </div>
-    <p class="mt-6 text-xs text-slate-500">Devnet today &middot; testnet tokens &middot; zero real money</p>
+    <p class="mt-6 text-xs text-[var(--color-fey-graphite)]">Devnet today &middot; testnet tokens &middot; zero real
+      money</p>
   </header>
 
   <!-- HOW IT WORKS -->
-  <section id="how" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800">
-    <h2 class="text-3xl font-bold text-center">How it works</h2>
-    <p class="text-slate-400 text-center mt-3">Three steps. No signup, no dashboard, no API key ceremony.</p>
+  <section id="how" class="max-w-5xl mx-auto px-6 py-16 border-t border-[var(--color-fey-smoke)]">
+    <h2 class="text-3xl font-bold text-center text-[var(--color-fey-white)] tracking-[-0.053em]">How it works</h2>
+    <p class="text-[var(--color-fey-graphite)] text-center mt-3">Three steps. No signup, no dashboard, no API key
+      ceremony.</p>
     <div class="mt-10 grid gap-6">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <div class="text-emerald-400 font-bold text-sm mb-2">01</div>
-        <h3 class="font-semibold text-lg mb-2">Call the endpoint</h3>
-        <p class="text-sm text-slate-400">Any HTTP client your agent already has. Four live routes:</p>
+      <div class="bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] p-6">
+        <div class="text-[var(--color-fey-growth)] font-bold text-sm mb-2">01</div>
+        <h3 class="font-semibold text-lg mb-2 text-[var(--color-fey-white)]">Call the endpoint</h3>
+        <p class="text-sm text-[var(--color-fey-graphite)]">Any HTTP client your agent already has. Four live routes:
+        </p>
         <code
-          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/market-pulse?token=bitcoin</code>
-        <p class="text-sm text-slate-400 mt-2">market_pulse — Price, 24h change, 24h volume and RSI 14d for a CoinGecko id.</p>
+          class="block mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] break-all">GET /api/insights/market-pulse?token=bitcoin</code>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-2">market_pulse — Price, 24h change, 24h volume and RSI
+          14d for a CoinGecko id.</p>
         <code
-          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/token-safety?token=<mint></code>
-        <p class="text-sm text-slate-400 mt-2">token_safety — Is it safe to buy? Score plus reasons: honeypot, freeze authority, holder concentration.</p>
+          class="block mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] break-all">GET /api/insights/token-safety?token=<mint></code>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-2">token_safety — Is it safe to buy? Score plus reasons:
+          honeypot, freeze authority, holder concentration.</p>
         <code
-          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/whale-pulse?token=<mint></code>
-        <p class="text-sm text-slate-400 mt-2">whale_pulse — What are whales doing? Transfers in the last 24h, data only, no verdict.</p>
+          class="block mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] break-all">GET /api/insights/whale-pulse?token=<mint></code>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-2">whale_pulse — What are whales doing? Transfers in the
+          last 24h, data only, no verdict.</p>
         <code
-          class="block mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 break-all">GET /api/insights/alpha-bundle?token=<mint></code>
-        <p class="text-sm text-slate-400 mt-2">alpha_bundle — BUY / WAIT / AVOID verdict combining momentum, safety and whale activity.</p>
-        <p class="text-sm text-slate-400 mt-3">Agents can discover all four routes — prices, inputs, outputs — at <code class="text-slate-200">/.well-known/x402</code> or <code class="text-slate-200">/openapi.json</code>, no repo needed.</p>
+          class="block mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] break-all">GET /api/insights/alpha-bundle?token=<mint></code>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-2">alpha_bundle — BUY / WAIT / AVOID verdict combining
+          momentum, safety and whale activity.</p>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Agents can discover all four routes — prices, inputs,
+          outputs — at <code class="text-[var(--color-fey-mist)]">/.well-known/x402</code> or <code
+            class="text-[var(--color-fey-mist)]">/openapi.json</code>, no repo needed.</p>
       </div>
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <div class="text-emerald-400 font-bold text-sm mb-2">02</div>
-        <h3 class="font-semibold text-lg mb-2">Pay 0.05 USDC via x402</h3>
-        <p class="text-sm text-slate-400">No payment &rarr; <code class="text-amber-300">402</code> with instructions.
-          Send a Solana devnet USDC transfer, pass the signature in the <code class="text-slate-200">X-Signature</code>
+      <div class="bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] p-6">
+        <div class="text-[var(--color-fey-growth)] font-bold text-sm mb-2">02</div>
+        <h3 class="font-semibold text-lg mb-2 text-[var(--color-fey-white)]">Pay 0.05 USDC via x402</h3>
+        <p class="text-sm text-[var(--color-fey-graphite)]">No payment &rarr; <code
+            class="text-[var(--color-fey-ember)]">402</code> with instructions.
+          Send a Solana devnet USDC transfer, pass the signature in the <code
+            class="text-[var(--color-fey-mist)]">X-Signature</code>
           header, retry.</p>
       </div>
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <div class="text-emerald-400 font-bold text-sm mb-2">03</div>
-        <h3 class="font-semibold text-lg mb-2">Get live JSON</h3>
-        <p class="text-sm text-slate-400">Price, 24h change, 24h volume, 14-day RSI. Cached 60 seconds, replay-safe.</p>
+      <div class="bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] p-6">
+        <div class="text-[var(--color-fey-growth)] font-bold text-sm mb-2">03</div>
+        <h3 class="font-semibold text-lg mb-2 text-[var(--color-fey-white)]">Get live JSON</h3>
+        <p class="text-sm text-[var(--color-fey-graphite)]">Price, 24h change, 24h volume, 14-day RSI. Cached 60
+          seconds, replay-safe.</p>
       </div>
     </div>
   </section>
 
   <!-- API SAMPLE -->
-  <section id="api" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800">
-    <h2 class="text-3xl font-bold text-center">Try it right now</h2>
-    <p class="text-slate-400 text-center mt-3">From any terminal. Devnet USDC is free from a faucet.</p>
-    <div class="mt-8 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-      <div class="px-5 py-3 border-b border-slate-800 text-xs text-slate-500 font-mono">terminal</div>
-      <pre class="p-5 text-sm font-mono overflow-x-auto"><code><span class="text-slate-500"># 1. Without payment → 402 (the gate is armed)</span>
-<span class="text-emerald-300">curl</span> <span class="text-slate-300">"https://argoo.xyz/api/insights/market-pulse?token=bitcoin"</span>
+  <section id="api" class="max-w-5xl mx-auto px-6 py-16 border-t border-[var(--color-fey-smoke)]">
+    <h2 class="text-3xl font-bold text-center text-[var(--color-fey-white)] tracking-[-0.053em]">Try it right now</h2>
+    <p class="text-[var(--color-fey-graphite)] text-center mt-3">From any terminal. Devnet USDC is free from a faucet.
+    </p>
+    <div class="mt-8 bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] overflow-hidden">
+      <div
+        class="px-5 py-3 border-b border-[var(--color-fey-smoke)] text-xs text-[var(--color-fey-graphite)] font-mono">
+        terminal</div>
+      <pre
+        class="p-5 text-sm font-mono overflow-x-auto"><code><span class="text-[var(--color-fey-graphite)]"># 1. Without payment → 402 (the gate is armed)</span>
+<span class="text-[var(--color-fey-growth)]">curl</span> <span class="text-[var(--color-fey-mist)]">"https://argoo.xyz/api/insights/market-pulse?token=bitcoin"</span>
 
-<span class="text-slate-500"># 2. Pay 0.05 devnet USDC, then retry with the signature → 200</span>
-<span class="text-emerald-300">curl</span> -H <span class="text-slate-300">"X-Signature: &lt;your-tx-signature&gt;"</span> \
-  <span class="text-slate-300">"https://argoo.xyz/api/insights/market-pulse?token=bitcoin"</span></code></pre>
+<span class="text-[var(--color-fey-graphite)]"># 2. Pay 0.05 devnet USDC, then retry with the signature → 200</span>
+<span class="text-[var(--color-fey-growth)]">curl</span> -H <span class="text-[var(--color-fey-mist)]">"X-Signature: &lt;your-tx-signature&gt;"</span> \
+  <span class="text-[var(--color-fey-mist)]">"https://argoo.xyz/api/insights/market-pulse?token=bitcoin"</span></code></pre>
     </div>
     <!-- Greg: sesuaikan field names di bawah dengan src/endpoints.ts kalau beda -->
-    <div class="mt-4 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-      <div class="px-5 py-3 border-b border-slate-800 text-xs text-slate-500 font-mono">example response → 200</div>
-      <pre class="p-5 text-sm font-mono overflow-x-auto text-slate-300"><code>{
-  <span class="text-sky-300">"token"</span>: <span class="text-amber-200">"bitcoin"</span>,
-  <span class="text-sky-300">"price_usd"</span>: <span class="text-emerald-300">81583</span>,
-  <span class="text-sky-300">"change_24h_pct"</span>: <span class="text-emerald-300">-0.81</span>,
-  <span class="text-sky-300">"volume_24h_usd"</span>: <span class="text-emerald-300">23780000000</span>,
-  <span class="text-sky-300">"rsi_14d"</span>: <span class="text-emerald-300">34.71</span>,
-  <span class="text-sky-300">"as_of"</span>: <span class="text-amber-200">"2026-10-20T13:46:00Z"</span>
+    <div class="mt-4 bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] overflow-hidden">
+      <div
+        class="px-5 py-3 border-b border-[var(--color-fey-smoke)] text-xs text-[var(--color-fey-graphite)] font-mono">
+        example response → 200</div>
+      <pre class="p-5 text-sm font-mono overflow-x-auto text-[var(--color-fey-mist)]"><code>{
+  <span class="text-[var(--color-fey-mist)]">"token"</span>: <span class="text-[var(--color-fey-mist)]">"bitcoin"</span>,
+  <span class="text-[var(--color-fey-mist)]">"price_usd"</span>: <span class="text-[var(--color-fey-growth)]">81583</span>,
+  <span class="text-[var(--color-fey-mist)]">"change_24h_pct"</span>: <span class="text-[var(--color-fey-growth)]">-0.81</span>,
+  <span class="text-[var(--color-fey-mist)]">"volume_24h_usd"</span>: <span class="text-[var(--color-fey-growth)]">23780000000</span>,
+  <span class="text-[var(--color-fey-mist)]">"rsi_14d"</span>: <span class="text-[var(--color-fey-growth)]">34.71</span>,
+  <span class="text-[var(--color-fey-mist)]">"as_of"</span>: <span class="text-[var(--color-fey-mist)]">"2026-10-20T13:46:00Z"</span>
 }</code></pre>
     </div>
   </section>
 
   <!-- INTEGRATE -->
-  <section id="integrate" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800">
-    <h2 class="text-3xl font-bold text-center">Integrate Argoo</h2>
-    <p class="text-slate-400 text-center mt-3">Put the four tools in your agent or your code. Two ways in — pick one.</p>
+  <section id="integrate" class="max-w-5xl mx-auto px-6 py-16 border-t border-[var(--color-fey-smoke)]">
+    <h2 class="text-3xl font-bold text-center text-[var(--color-fey-white)] tracking-[-0.053em]">Integrate Argoo</h2>
+    <p class="text-[var(--color-fey-graphite)] text-center mt-3">Put the four tools in your agent or your code. Two ways
+      in — pick one.</p>
     <div class="mt-10 grid gap-6">
-      <div class="min-w-0 bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <div class="text-emerald-400 font-bold text-sm mb-2">A</div>
-        <h3 class="font-semibold text-lg mb-2">MCP — free, local</h3>
-        <p class="text-sm text-slate-400">The same four tools over MCP (stdio), for agents and MCP clients. Free and local — no payment gate. The paid path stays the HTTP API (0.05 USDC per call).</p>
-        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
+      <div
+        class="min-w-0 bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] p-6 shadow-[var(--shadow-xl)]">
+        <div class="text-[var(--color-fey-growth)] font-bold text-sm mb-2">A</div>
+        <h3 class="font-semibold text-lg mb-2 text-[var(--color-fey-white)]">MCP — free, local</h3>
+        <p class="text-sm text-[var(--color-fey-graphite)]">The same four tools over MCP (stdio), for agents and MCP
+          clients. Free and local — no payment gate. The paid path stays the HTTP API (0.05 USDC per call).</p>
+        <pre
+          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
 cd Argo
 npm install
 npm run build
 node dist/mcp-server.js   # stdio, waits on stdin (Ctrl+C to exit)</pre>
-        <p class="text-sm text-slate-400 mt-3">Claude Desktop (<code class="text-slate-200">claude_desktop_config.json</code>):</p>
-        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-slate-300 font-mono overflow-x-auto">{
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Claude Desktop (<code
+            class="text-[var(--color-fey-mist)]">claude_desktop_config.json</code>):</p>
+        <pre
+          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-mist)] font-mono overflow-x-auto">{
   "mcpServers": {
     "argoo": {
       "command": "node",
@@ -150,75 +218,100 @@ node dist/mcp-server.js   # stdio, waits on stdin (Ctrl+C to exit)</pre>
     }
   }
 }</pre>
-        <p class="text-sm text-slate-400 mt-3">Try it with the Inspector, from the project root:</p>
-        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 font-mono overflow-x-auto">npx @modelcontextprotocol/inspector node dist/mcp-server.js</pre>
-        <p class="text-sm text-slate-400 mt-3">The repo is private in v1, so install needs GitHub access. Public install comes with the npm package (v2).</p>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Try it with the Inspector, from the project root:</p>
+        <pre
+          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] font-mono overflow-x-auto">npx @modelcontextprotocol/inspector node dist/mcp-server.js</pre>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">The repo is private in v1, so install needs GitHub
+          access. Public install comes with the npm package (v2).</p>
       </div>
-      <div class="min-w-0 bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <div class="text-emerald-400 font-bold text-sm mb-2">B</div>
-        <h3 class="font-semibold text-lg mb-2">SDK — paid, 0.05 USDC per call</h3>
-        <p class="text-sm text-slate-400">A thin wrapper over the paid HTTP API. Repo-only in v1 — no npm package yet.</p>
-        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-emerald-300 font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
+      <div
+        class="min-w-0 bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] p-6 shadow-[var(--shadow-xl)]">
+        <div class="text-[var(--color-fey-growth)] font-bold text-sm mb-2">B</div>
+        <h3 class="font-semibold text-lg mb-2 text-[var(--color-fey-white)]">SDK — paid, 0.05 USDC per call</h3>
+        <p class="text-sm text-[var(--color-fey-graphite)]">A thin wrapper over the paid HTTP API. Repo-only in v1 — no
+          npm package yet.</p>
+        <pre
+          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
 cd Argo
 npm install
 npm run build
 # .env: SDK_PAYER_SECRET_KEY=&lt;devnet-only key&gt;
 node examples/sdk-example.mjs</pre>
-        <pre class="mt-3 text-xs bg-slate-950 border border-slate-800 rounded p-3 text-slate-300 font-mono overflow-x-auto">import sdk from "./dist/sdk.js";
+        <pre
+          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-mist)] font-mono overflow-x-auto">import sdk from "./dist/sdk.js";
 const wallet = Keypair.fromSecretKey(
   sdk.secretKeyFromBase58(process.env.SDK_PAYER_SECRET_KEY));
 const result = await sdk.token_safety("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU", { wallet });</pre>
-        <p class="text-sm text-slate-400 mt-3">Pays 0.05 USDC per call from a devnet-only wallet. Key in <code class="text-slate-200">.env</code>, never hardcoded, never mainnet. Get devnet funds first: SOL at <a class="text-emerald-300 hover:text-white" href="https://faucet.solana.com">faucet.solana.com</a>, devnet USDC at <a class="text-emerald-300 hover:text-white" href="https://faucet.circle.com">faucet.circle.com</a>.</p>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Pays 0.05 USDC per call from a devnet-only wallet. Key
+          in <code class="text-[var(--color-fey-mist)]">.env</code>, never hardcoded, never mainnet. Get devnet funds
+          first: SOL at <a class="text-[var(--color-fey-growth)] hover:text-[var(--color-fey-white)]"
+            href="https://faucet.solana.com">faucet.solana.com</a>, devnet USDC at <a
+            class="text-[var(--color-fey-growth)] hover:text-[var(--color-fey-white)]"
+            href="https://faucet.circle.com">faucet.circle.com</a>.</p>
       </div>
     </div>
-    <p class="text-sm text-slate-400 text-center mt-8">Agents: the machine-readable version of all of this is <a class="text-emerald-300 hover:text-white" href="/.well-known/x402">/.well-known/x402</a> and <a class="text-emerald-300 hover:text-white" href="/openapi.json">/openapi.json</a>.</p>
+    <p class="text-sm text-[var(--color-fey-graphite)] text-center mt-8">Agents: the machine-readable version of all of
+      this is <a class="text-[var(--color-fey-growth)] hover:text-[var(--color-fey-white)]"
+        href="/.well-known/x402">/.well-known/x402</a> and <a
+        class="text-[var(--color-fey-growth)] hover:text-[var(--color-fey-white)]"
+        href="/openapi.json">/openapi.json</a>.</p>
   </section>
 
   <!-- PRICING -->
-  <section id="pricing" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-800 text-center">
-    <h2 class="text-3xl font-bold">Pricing</h2>
-    <p class="mt-6 text-5xl font-extrabold text-emerald-400">0.05 <span class="text-2xl">USDC</span></p>
-    <p class="text-slate-400 mt-2">per call. That's the whole pricing page.</p>
-    <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm text-slate-400">
-      <span class="border border-slate-800 rounded-full px-4 py-2">No subscription</span>
-      <span class="border border-slate-800 rounded-full px-4 py-2">No API key</span>
-      <span class="border border-slate-800 rounded-full px-4 py-2">No rate-limit games</span>
-      <span class="border border-slate-800 rounded-full px-4 py-2">Replay-safe</span>
+  <section id="pricing" class="max-w-5xl mx-auto px-6 py-16 border-t border-[var(--color-fey-smoke)] text-center">
+    <h2 class="text-3xl font-bold text-[var(--color-fey-white)] tracking-[-0.053em]">Pricing</h2>
+    <p class="mt-6 text-5xl font-bold text-[var(--color-fey-white)] tracking-[-0.08em]">0.05 <span
+        class="text-2xl">USDC</span></p>
+    <p class="text-[var(--color-fey-graphite)] mt-2">per call. That's the whole pricing page.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm text-[var(--color-fey-graphite)]">
+      <span class="border border-[var(--color-fey-smoke)] rounded-full px-4 py-2">No subscription</span>
+      <span class="border border-[var(--color-fey-smoke)] rounded-full px-4 py-2">No API key</span>
+      <span class="border border-[var(--color-fey-smoke)] rounded-full px-4 py-2">No rate-limit games</span>
+      <span class="border border-[var(--color-fey-smoke)] rounded-full px-4 py-2">Replay-safe</span>
     </div>
   </section>
 
   <!-- VERDICT EXAMPLE & ROADMAP -->
-  <section class="max-w-3xl mx-auto px-6 py-16 border-t border-slate-800">
-    <div class="rounded-2xl border border-emerald-400/30 bg-zinc-900 p-5">
-      <div class="text-xs tracking-wide text-zinc-400">EXAMPLE — REAL OUTPUT · 6 NOV 2026 · DEVNET FAUCET MINT</div>
-      <div class="mt-2 text-2xl font-bold"><span class="text-amber-300">AVOID</span></div>
-      <p class="mt-1 text-sm text-zinc-300">The devnet faucet mint (4zMMC9…JDncDU). Its creator can still mint more
+  <section class="max-w-3xl mx-auto px-6 py-16 border-t border-[var(--color-fey-smoke)]">
+    <div
+      class="rounded-[16px] border border-[var(--color-fey-smoke)] bg-[var(--surface-card)] p-5 shadow-[var(--shadow-xl)]">
+      <div class="text-xs tracking-wide text-[var(--color-fey-graphite)]">EXAMPLE — REAL OUTPUT · 6 NOV 2026 · DEVNET
+        FAUCET MINT</div>
+      <div class="mt-2 text-2xl font-bold"><span class="text-[var(--color-fey-ember)]">AVOID</span></div>
+      <p class="mt-1 text-sm text-[var(--color-fey-mist)]">The devnet faucet mint (4zMMC9…JDncDU). Its creator can still
+        mint more
         tokens and freeze holders' tokens, and one wallet holds 60.71% of supply —
         safety score 10, RISKY. That is an absolute veto: no whale or momentum
         signal can lift it. This is one real answer, not a promise.</p>
     </div>
-    <p class="mt-8 text-sm text-slate-400 text-center leading-relaxed">
+    <p class="mt-8 text-sm text-[var(--color-fey-graphite)] text-center leading-relaxed">
       Live now: market_pulse, token_safety, whale_pulse, alpha_bundle.
     </p>
   </section>
 
   <!-- WAITLIST SECTION -->
-  <section id="waitlist" class="max-w-5xl mx-auto px-6 py-20 border-t border-slate-800 text-center">
-    <h2 class="text-3xl font-bold">Argoo is on devnet today.<br>Mainnet is next.</h2>
-    <p class="text-slate-400 mt-4 max-w-xl mx-auto">Join the waitlist and we'll ping you when real-money rails go live —
+  <section id="waitlist" class="max-w-5xl mx-auto px-6 py-20 border-t border-[var(--color-fey-smoke)] text-center">
+    <h2 class="text-3xl font-bold text-[var(--color-fey-white)] tracking-[-0.053em]">Argoo is on devnet
+      today.<br>Mainnet is next.</h2>
+    <p class="text-[var(--color-fey-graphite)] mt-4 max-w-xl mx-auto">Join the waitlist and we'll ping you when
+      real-money rails go live —
       plus early API shapes we're testing.</p>
     <button onclick="openModal()"
-      class="inline-block mt-8 font-semibold bg-emerald-400 text-slate-950 px-8 py-4 rounded-lg hover:bg-emerald-300 text-lg">
+      class="inline-block mt-8 font-medium text-sm text-[var(--color-fey-white)] bg-transparent border border-[var(--color-fey-pale)] px-6 py-3 rounded-[99px] shadow-[var(--shadow-md)] hover:border-[var(--color-fey-white)]">
       Join the waitlist
     </button>
   </section>
 
   <!-- MODAL -->
-  <div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      <div class="sticky top-0 flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900">
-        <h3 class="text-lg font-bold">Join the waitlist</h3>
-        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+  <div id="modal"
+    class="fixed inset-0 bg-[var(--surface-overlay)] backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div
+      class="bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div
+        class="sticky top-0 flex items-center justify-between p-4 border-b border-[var(--color-fey-smoke)] bg-[var(--surface-card)]">
+        <h3 class="text-lg font-bold text-[var(--color-fey-white)]">Join the waitlist</h3>
+        <button onclick="closeModal()"
+          class="text-[var(--color-fey-graphite)] hover:text-[var(--color-fey-white)] text-2xl leading-none">&times;</button>
       </div>
       <div class="p-4">
         <iframe
@@ -229,9 +322,9 @@ const result = await sdk.token_safety("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDn
   </div>
 
   <!-- FOOTER -->
-  <footer class="border-t border-slate-800">
+  <footer class="border-t border-[var(--color-fey-smoke)]">
     <div
-      class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+      class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-[var(--color-fey-graphite)]">
       <div class="flex items-center gap-2">
         <a href="https://x.com/ArgooXYZ" target="_blank" rel="noopener" aria-label="Argoo on X"
           style="display:inline-flex;align-items:center;color:inherit;text-decoration:none;">
