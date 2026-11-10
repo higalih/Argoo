@@ -1,8 +1,15 @@
 {
-  "name": "machine-money",
+  "name": "argoo-mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "Pay-per-call API for AI agents (x402 pattern, own implementation)",
+  "license": "MIT",
+  "homepage": "https://argoo.xyz",
+  "keywords": ["mcp", "model-context-protocol", "x402", "solana", "usdc", "pay-per-call"],
+  "files": ["dist/", "README.md", "LICENSE"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/higalih/Argo.git"
+  },
   "main": "dist/index.js",
   "bin": {
     "argoo-mcp": "dist/mcp-server.js"
@@ -10,7 +17,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",

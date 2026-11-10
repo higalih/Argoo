@@ -33,6 +33,28 @@ to mainnet values only when ready.
 clients. Free and local: it calls the handlers directly, with no payment
 gate. The paid path stays the HTTP API above (0.05 USDC per call).
 
+Install from npm (public):
+
+```bash
+npx -y argoo-mcp   # stdio, waits on stdin (Ctrl+C to exit)
+```
+
+Claude Desktop (`claude_desktop_config.json`) with the npm package:
+
+```json
+{
+  "mcpServers": {
+    "argoo": {
+      "command": "npx",
+      "args": ["-y", "argoo-mcp"],
+      "env": { "SOLANA_RPC_URL": "https://devnet.helius-rpc.com/?api-key=YOUR_KEY" }
+    }
+  }
+}
+```
+
+Or install from source (development):
+
 ```bash
 git clone https://github.com/higalih/Argo.git
 cd Argo
@@ -66,8 +88,7 @@ is found):
 npx @modelcontextprotocol/inspector node dist/mcp-server.js
 ```
 
-Note: this repo is private, so v1 install is for collaborators with
-GitHub access. Public install comes with the npm package (v2).
+Note: install from npm above for normal use. Clone + build is the development path — this repo is private, so the clone path is for collaborators with GitHub access.
 
 ## Layout
 
