@@ -198,28 +198,29 @@
         <p class="text-sm text-[var(--color-fey-graphite)]">The same four tools over MCP (stdio), for agents and MCP
           clients. Free and local — no payment gate. The paid path stays the HTTP API (0.05 USDC per call).</p>
         <pre
-          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
-cd Argo
-npm install
-npm run build
-node dist/mcp-server.js   # stdio, waits on stdin (Ctrl+C to exit)</pre>
+          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] font-mono overflow-x-auto">npx -y argoo-mcp   # stdio, waits on stdin (Ctrl+C to exit)</pre>
         <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Claude Desktop (<code
             class="text-[var(--color-fey-mist)]">claude_desktop_config.json</code>):</p>
         <pre
           class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-mist)] font-mono overflow-x-auto">{
   "mcpServers": {
     "argoo": {
-      "command": "node",
-      "args": ["/absolute/path/to/Argo/dist/mcp-server.js"],
+      "command": "npx",
+      "args": ["-y", "argoo-mcp"],
       "env": { "SOLANA_RPC_URL": "https://devnet.helius-rpc.com/?api-key=YOUR_KEY" }
     }
   }
 }</pre>
-        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Try it with the Inspector, from the project root:</p>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Development path — clone + build, then the Inspector from the project root:</p>
+        <pre
+          class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] font-mono overflow-x-auto">git clone https://github.com/higalih/Argo.git
+cd Argo
+npm install
+npm run build</pre>
         <pre
           class="mt-3 text-xs bg-[var(--surface-elevated)] border border-[var(--color-fey-smoke)] rounded-[10px] p-3 text-[var(--color-fey-growth)] font-mono overflow-x-auto">npx @modelcontextprotocol/inspector node dist/mcp-server.js</pre>
-        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">The repo is private in v1, so install needs GitHub
-          access. Public install comes with the npm package (v2).</p>
+        <p class="text-sm text-[var(--color-fey-graphite)] mt-3">Install from npm above for normal use. Clone + build is the
+          development path — this repo is private, so the clone path is for collaborators with GitHub access.</p>
       </div>
       <div
         class="min-w-0 bg-[var(--surface-card)] border border-[var(--color-fey-smoke)] rounded-[16px] p-6 shadow-[var(--shadow-xl)]">
