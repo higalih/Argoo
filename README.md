@@ -56,8 +56,8 @@ Claude Desktop (`claude_desktop_config.json`) with the npm package:
 Or install from source (development):
 
 ```bash
-git clone https://github.com/higalih/Argo.git
-cd Argo
+git clone https://github.com/higalih/Argoo.git
+cd Argoo
 npm install
 npm run build
 node dist/mcp-server.js   # stdio, waits on stdin (Ctrl+C to exit)
@@ -88,7 +88,7 @@ is found):
 npx @modelcontextprotocol/inspector node dist/mcp-server.js
 ```
 
-Note: install from npm above for normal use. Clone + build is the development path — this repo is private, so the clone path is for collaborators with GitHub access.
+Note: install from npm above for normal use. Clone + build is the development path — the repo is public, so anyone can clone and build it.
 
 ## Layout
 

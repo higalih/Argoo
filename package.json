@@ -4,11 +4,22 @@
   "description": "Pay-per-call API for AI agents (x402 pattern, own implementation)",
   "license": "MIT",
   "homepage": "https://argoo.xyz",
-  "keywords": ["mcp", "model-context-protocol", "x402", "solana", "usdc", "pay-per-call"],
-  "files": ["dist/", "README.md", "LICENSE"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "x402",
+    "solana",
+    "usdc",
+    "pay-per-call"
+  ],
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/higalih/Argo.git"
+    "url": "https://github.com/higalih/Argoo.git"
   },
   "main": "dist/index.js",
   "bin": {
