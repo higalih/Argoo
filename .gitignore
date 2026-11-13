@@ -3,6 +3,8 @@ dist/
 .env
 *.bak
 .vscode/
+.deepcode/
+logs/
 # Working notes - private recipes, not part of the install
 argo-roadmap-draft.md
 docs/
