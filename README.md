@@ -70,7 +70,7 @@ Claude Desktop (`claude_desktop_config.json`):
   "mcpServers": {
     "argoo": {
       "command": "node",
-      "args": ["/absolute/path/to/Argo/dist/mcp-server.js"],
+      "args": ["/absolute/path/to/Argoo/dist/mcp-server.js"],
       "env": { "SOLANA_RPC_URL": "https://devnet.helius-rpc.com/?api-key=YOUR_KEY" }
     }
   }
